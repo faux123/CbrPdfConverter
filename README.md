@@ -3,18 +3,12 @@ CbrPdfConverter
 
 A simple application to convert .cbr/.cbz to pdf and .pdf to .cbz.
 
-This is a fork of https://code.google.com/p/cbr-converter/
+This is a fork of a fork originally from https://code.google.com/p/cbr-converter/ (abandoned)
+then https://github.com/dragouf/CbrPdfConverter (abandoned)
+Now it's maintained sparingly at https://github.com/faux123/CbrPdfConverter
 
-What's new in this fork :
+What's new in this fork (v1.3) :
 
-  - Finding images in pdf is more efficient
-  - Can merge images of a page 
-  - Process folder recursively
-  - You can choose output folder
-  - Error won't pause processing 
-
-__Note :__ If you don't have visual studio you can download the executable file here: https://github.com/rfog/CbrPdfConverter/blob/master/Compiled/v1.2/CbrConverter1.2.zip
-
-<p align="center">
-<img src="http://i.imgur.com/m34YK9n.png" alt="CbrConverter screenshot" />
-</p>
+  - Updated to latest iTextSharp
+  - Updated to latest SharpCompress
+  - Added Drag and Drop support
