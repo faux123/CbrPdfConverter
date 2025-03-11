@@ -21,9 +21,75 @@ namespace CbrConverter
             InitializeComponent();
             ToolTip tooltip = new ToolTip();
             tooltip.SetToolTip(this.btn_showlog, "Show/Hide Logs");
+
+            // Enable Drag and Drop
+            this.AllowDrop = true;
+            this.DragEnter += new DragEventHandler(MainForm_DragEnter);
+            this.DragDrop += new DragEventHandler(MainForm_DragDrop);
         }
 
-       
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Length > 0)
+            {
+                // Assuming you want to process only the first file/folder dropped
+                string droppedPath = files[0];
+                ProcessDroppedPath(droppedPath);
+            }
+        }
+
+        private void ProcessDroppedPath(string path)
+        {
+            DataAccess.Instance.g_WorkingDir = path;
+            tbox_SourceFile.Text = path;
+
+            //check if file or folder
+            if (File.Exists(DataAccess.Instance.g_WorkingDir)) //is a file
+            {
+                //check the extension
+                var ext = Path.GetExtension(path).ToLower();
+                if (ext == ".pdf")
+                {
+                    chk_cbr2pdf.Checked = false;
+                    chk_cbr2pdf.Enabled = false;
+                    chk_pdf2cbr.Checked = true;
+                    chk_pdf2cbr.Enabled = true;
+                    chk_JoinImages.Enabled = true;
+
+                }
+                else if (ext == ".cbr" || ext == ".cbz")
+                {
+                    chk_cbr2pdf.Checked = true;
+                    chk_cbr2pdf.Enabled = true;
+                    chk_pdf2cbr.Checked = false;
+                    chk_pdf2cbr.Enabled = false;
+                    chk_JoinImages.Enabled = false;
+                }
+            }
+            else //is a folder
+            {
+                chk_cbr2pdf.Checked = true;
+                chk_cbr2pdf.Enabled = true;
+                chk_pdf2cbr.Checked = true;
+                chk_pdf2cbr.Enabled = true;
+            }
+
+            _fileSelected = true;
+
+            if (this.chk_SourceFolder.Checked)
+            {
+                _outputFolderSelected = true;
+                DataAccess.Instance.g_Output_dir = Path.GetDirectoryName(path);
+                this.tbox_OuputFolder.Text = this.tbox_SourceFile.Text;
+            }
+        }
 
         private void btn_StartStop_Click(object sender, EventArgs e)
         {
@@ -36,7 +102,7 @@ namespace CbrConverter
             }
             else
             {
-                if (((chk_cbr2pdf.Checked) || (chk_pdf2cbr.Checked))&&(_fileSelected))
+                if (((chk_cbr2pdf.Checked) || (chk_pdf2cbr.Checked)) && (_fileSelected))
                 {
                     btn_StartStop.Text = "STOP";
                     DataAccess.Instance.g_ReduceSize = chk_ReduceSize.Checked;
@@ -48,7 +114,7 @@ namespace CbrConverter
             }
         }
 
-        
+
 
         public void Subscribe(Extract m)
         {
@@ -59,7 +125,7 @@ namespace CbrConverter
             PdfFunctions.evnt_UpdateCurBar += new PdfFunctions.UpdateCurrentBar(UpdateCurrBar);
         }
         private void UpdateCurrBar()
-        {           
+        {
             this.Invoke((MethodInvoker)delegate
             {
                 if (DataAccess.Instance.g_curProgress > 100)
@@ -77,7 +143,7 @@ namespace CbrConverter
                 if (lbl_ProcessingFile.Text == string.Empty)//finished
                 {
                     btn_StartStop.Text = "START";
-                   
+
                 }
             });
         }
@@ -100,7 +166,7 @@ namespace CbrConverter
                 //pbar_TotalProgress.Value = 0;
                 //pbar_ActualFile.Value = 0;
                 //lbl_ProcessingFile.Text =string.Empty;
-                listViewLog.Items.Add(new ListViewItem(new List<string>{ (listViewLog.Items.Count + 1).ToString(), e}.ToArray()));
+                listViewLog.Items.Add(new ListViewItem(new List<string> { (listViewLog.Items.Count + 1).ToString(), e }.ToArray()));
                 //this.textBoxLog.Text += e + Environment.NewLine;
                 ShowLog();
             });
@@ -181,8 +247,6 @@ namespace CbrConverter
             AboutorForm aboutform = new AboutorForm();
             aboutform.ShowDialog();
         }
-
-
         private int LogTopPosition
         {
             get
@@ -221,10 +285,10 @@ namespace CbrConverter
         }
 
         private void ShowLog()
-        {            
+        {
             var timerSlide = new System.Windows.Forms.Timer();
             timerSlide.Interval = 3;
-            timerSlide.Tick += delegate(object sender, EventArgs e)
+            timerSlide.Tick += delegate (object sender, EventArgs e)
             {
                 var timer = (System.Windows.Forms.Timer)sender;
                 if (this.Height >= this.LogBottomPosition)
@@ -237,7 +301,7 @@ namespace CbrConverter
                 {
                     this.Height = this.Size.Height + 10;
                 }
-                    
+
             };
             timerSlide.Start();
         }
@@ -247,7 +311,7 @@ namespace CbrConverter
             // just a slide effect
             var timerSlide = new System.Windows.Forms.Timer();
             timerSlide.Interval = 3;
-            timerSlide.Tick += delegate(object sender, EventArgs e)
+            timerSlide.Tick += delegate (object sender, EventArgs e)
             {
                 var timer = (System.Windows.Forms.Timer)sender;
                 if (this.Height <= this.LogTopPosition)
@@ -262,7 +326,7 @@ namespace CbrConverter
                 }
 
             };
-            timerSlide.Start();     
+            timerSlide.Start();
         }
 
         private void tbox_OuputFolder_Click(object sender, EventArgs e)
@@ -290,7 +354,7 @@ namespace CbrConverter
         }
 
         private void chk_SourceFolder_CheckedChanged(object sender, EventArgs e)
-        {           
+        {
             this.tbox_OuputFolder.Enabled = !this.chk_SourceFolder.Checked;
             if (this.chk_SourceFolder.Checked)
             {
