@@ -362,5 +362,10 @@ namespace CbrConverter
                 this.tbox_OuputFolder.Text = DataAccess.Instance.g_Output_dir;
             }
         }
+
+        private void tbox_SourceFile_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

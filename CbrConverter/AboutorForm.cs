@@ -26,5 +26,20 @@ namespace CbrConverter
         {
             System.Diagnostics.Process.Start(((LinkLabel)sender).Text);
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLable1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(((LinkLabel)sender).Text);
+        }
     }
 }
