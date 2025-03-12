@@ -1,4 +1,4 @@
-CbrPdfConverter
+CBZ/R to PDF converter
 ===============
 
 A simple application to convert .cbr/.cbz to pdf and .pdf to .cbz.
@@ -9,6 +9,6 @@ Now it's maintained sparingly at https://github.com/faux123/CbrPdfConverter
 
 What's new in this fork (v1.3) :
 
-  - Updated to latest iTextSharp
-  - Updated to latest SharpCompress
+  - Updated to latest libraries (fix CVE vulnerabilities)
   - Added Drag and Drop support
+  - Updated dot net framework 4.8
