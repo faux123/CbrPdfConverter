@@ -19,6 +19,19 @@ namespace CbrConverter
         public MainForm()
         {
             InitializeComponent();
+
+            // Add Context Menu to ListView
+            listViewLog.ContextMenuStrip = new ContextMenuStrip();
+            listViewLog.ContextMenuStrip.Items.Add("Copy", null, CopyLogItem_Click); // Add the "Copy" option
+            listViewLog.MouseClick += ListViewLog_MouseClick; // Attach MouseClick event
+
+            // Set up ListView columns (important for horizontal scrolling)
+            listViewLog.View = View.Details; // Ensure it's in Details view
+            listViewLog.Columns.Add("ID", 30); // Example ID column
+            listViewLog.Columns.Add("Log Message", 500); // Wider Log Message column
+            listViewLog.Columns.Add("Extra Info", 200); // Another column
+            listViewLog.Scrollable = true;
+
             ToolTip tooltip = new ToolTip();
             tooltip.SetToolTip(this.btn_showlog, "Show/Hide Logs");
 
@@ -26,6 +39,31 @@ namespace CbrConverter
             this.AllowDrop = true;
             this.DragEnter += new DragEventHandler(MainForm_DragEnter);
             this.DragDrop += new DragEventHandler(MainForm_DragDrop);
+        }
+
+        // New method to handle the MouseClick event on the ListView
+        private void ListViewLog_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) // Check if it's a right-click
+            {
+                // Get the item that was right-clicked
+                ListViewHitTestInfo hitTestInfo = listViewLog.HitTest(e.Location);
+                if (hitTestInfo.Item != null)
+                {
+                    listViewLog.SelectedItems.Clear(); // Clear previous selections
+                    hitTestInfo.Item.Selected = true;   // Select the item that was right-clicked
+                }
+            }
+        }
+
+        // New method to handle the "Copy" click event
+        private void CopyLogItem_Click(object sender, EventArgs e)
+        {
+            if (listViewLog.SelectedItems.Count > 0)
+            {
+                // Copy the text of the first subitem (the log message) to the clipboard
+                Clipboard.SetText(listViewLog.SelectedItems[0].SubItems[1].Text); //Subitem[1] is the log message
+            }
         }
 
         private void MainForm_DragEnter(object sender, DragEventArgs e)
@@ -114,8 +152,6 @@ namespace CbrConverter
             }
         }
 
-
-
         public void Subscribe(Extract m)
         {
             m.evnt_UpdateCurBar += new Extract.UpdateCurrentBar(UpdateCurrBar);
@@ -162,16 +198,11 @@ namespace CbrConverter
         {
             this.Invoke((MethodInvoker)delegate
             {
-                //btn_StartStop.Text = "START";
-                //pbar_TotalProgress.Value = 0;
-                //pbar_ActualFile.Value = 0;
-                //lbl_ProcessingFile.Text =string.Empty;
-                listViewLog.Items.Add(new ListViewItem(new List<string> { (listViewLog.Items.Count + 1).ToString(), e }.ToArray()));
-                //this.textBoxLog.Text += e + Environment.NewLine;
+                ListViewItem item = new ListViewItem((listViewLog.Items.Count + 1).ToString());
+                item.SubItems.Add(e);
+                listViewLog.Items.Add(item);
                 ShowLog();
             });
-            //MessageBox.Show(e, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
         }
 
         /// <summary>
@@ -184,7 +215,7 @@ namespace CbrConverter
             var SelectFolderDlg = new FolderBrowserDialogEx();
             SelectFolderDlg.Description = "Select a file or folder:"; //message
             SelectFolderDlg.ShowNewFolderButton = true;
-            SelectFolderDlg.ShowEditBox = false;                     //editbox 
+            SelectFolderDlg.ShowEditBox = false;                     //editbox
             SelectFolderDlg.ShowBothFilesAndFolders = true;          //show files and folders
             SelectFolderDlg.RootFolder = System.Environment.SpecialFolder.MyComputer; //start from computer
 
@@ -256,7 +287,6 @@ namespace CbrConverter
                 return this.listViewLog.Top + titleHeight - 1;
             }
         }
-
         private int LogBottomPosition
         {
             get
@@ -334,7 +364,7 @@ namespace CbrConverter
             var SelectFolderDlg = new FolderBrowserDialogEx();
             SelectFolderDlg.Description = "Select a folder:"; //message
             SelectFolderDlg.ShowNewFolderButton = true;
-            SelectFolderDlg.ShowEditBox = false;                     //editbox 
+            SelectFolderDlg.ShowEditBox = false;                     //editbox
             SelectFolderDlg.ShowBothFilesAndFolders = false;          //show files and folders
             SelectFolderDlg.RootFolder = System.Environment.SpecialFolder.MyComputer; //start from computer
 
