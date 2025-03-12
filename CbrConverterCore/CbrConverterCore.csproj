@@ -83,6 +83,7 @@
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
     <PackageReference Include="DotNetZip.Original" Version="2025.2.15" />
     <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.5.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.3" />

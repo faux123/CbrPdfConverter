@@ -9,6 +9,7 @@ using Ionic.Zip;
 using System.ComponentModel;
 using SharpCompress.Archives;
 using SharpCompress.Common;
+using ImageMagick;
 
 namespace CbrConverter
 {
@@ -259,6 +260,36 @@ namespace CbrConverter
 
 
             var result = PdfFunctions.PDF_ExportImage(currentFile, temporaryDir, divider, _CheckImagesPages, _JoinImages);
+
+            // New image processing logic
+            var imageFiles = Directory.GetFiles(temporaryDir, "*.*", SearchOption.AllDirectories);
+            foreach (var file in imageFiles)
+            {
+                var extension = Path.GetExtension(file).ToLower();
+                var supportedFormats = new[] { ".png", ".jpg", ".jpeg", ".gif" };
+                var jp2Formats = new[] { ".jp2", ".jpx", ".j2k", ".j2c", ".jpf" };
+
+                if (!supportedFormats.Contains(extension))
+                {
+                    if (jp2Formats.Contains(extension))
+                    {
+                        // Convert JP2 variants to JPG using Magick.NET
+                        var newPath = Path.ChangeExtension(file, ".jpg");
+                        using (var image = new ImageMagick.MagickImage(file))
+                        {
+                            image.Format = ImageMagick.MagickFormat.Jpg;
+                            image.Write(newPath);
+                        }
+                        File.Delete(file); // Remove original JP2 file
+                    }
+                    else
+                    {
+                        // Handle unsupported formats
+                        File.Delete(file);
+                        evnt_ErrorNotify(this, $"Unsupported image format: {extension} in file {file}");
+                    }
+                }
+            }
 
             if (result.ImagesAfterMerge != result.Pages)
                 evnt_ErrorNotify(this, string.Format("{0} : {1} images for {2} pages!", currentFile, result.ImagesAfterMerge, result.Pages));
