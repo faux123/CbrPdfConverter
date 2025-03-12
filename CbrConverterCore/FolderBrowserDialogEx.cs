@@ -37,7 +37,7 @@
 //
 
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
 using System;
 using System.Windows.Forms;

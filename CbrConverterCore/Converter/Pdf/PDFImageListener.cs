@@ -8,7 +8,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
 	internal class PDFImageListener : IRenderListener
 	{

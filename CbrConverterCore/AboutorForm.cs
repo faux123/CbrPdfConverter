@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     public partial class AboutorForm : Form
     {

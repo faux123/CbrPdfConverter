@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     public partial class MainForm : Form
     {
@@ -325,7 +325,7 @@ namespace CbrConverter
                 {
                     timer.Enabled = false;
                     this.Height = this.LogBottomPosition;
-                    //this.btn_showlog.Image = global::CbrConverter.Properties.Resources.arrow_double_up;
+                    //this.btn_showlog.Image = global::CbzConverterCore.Properties.Resources.arrow_double_up;
                 }
                 else
                 {
@@ -348,7 +348,7 @@ namespace CbrConverter
                 {
                     timer.Enabled = false;
                     this.Height = this.LogTopPosition;
-                    //this.btn_showlog.Image = global::CbrConverter.Properties.Resources.arrow_double_down;
+                    //this.btn_showlog.Image = global::CbzConverterCore.Properties.Resources.arrow_double_down;
                 }
                 else
                 {

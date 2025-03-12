@@ -8,7 +8,7 @@ using iTextSharp.text.pdf.parser;
 using System.Drawing.Imaging;
 using iTextSharp.text.pdf;
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     public class PdfFunctions
     {

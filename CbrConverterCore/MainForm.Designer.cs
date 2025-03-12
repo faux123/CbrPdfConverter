@@ -1,4 +1,4 @@
-﻿namespace CbrConverter
+﻿namespace CbzConverterCore
 {
     partial class MainForm
     {

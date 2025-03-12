@@ -5,7 +5,7 @@ using System.Text;
 
 
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     public class DataAccess
     {

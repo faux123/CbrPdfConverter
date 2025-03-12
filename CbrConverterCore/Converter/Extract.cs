@@ -11,7 +11,7 @@ using SharpCompress.Archives;
 using SharpCompress.Common;
 using ImageMagick;
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     public class Extract
     {

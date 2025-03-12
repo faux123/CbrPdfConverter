@@ -6,7 +6,7 @@ using System.IO;
 using iTextSharp.text;
 
 
-namespace CbrConverter
+namespace CbzConverterCore
 {
     internal class ImageJoiner
     {
