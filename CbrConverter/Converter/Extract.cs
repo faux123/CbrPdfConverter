@@ -274,6 +274,7 @@ namespace CbrConverter
 
                 using (ZipFile zip = new ZipFile())
                 {
+                    zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
                     zip.AddDirectory(temporaryDir);
                     // zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
                     zip.Save(savedfile);
