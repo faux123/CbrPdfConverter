@@ -251,13 +251,7 @@ namespace CbrConverter
                 Directory.Delete(temporaryDir, true);
             Directory.CreateDirectory(temporaryDir);
 
-
-            int divider;
-            if (_ReduceSize)
-                divider = 50;
-            else
-                divider = 80;
-
+            int divider = _ReduceSize ? 50 : 80;
 
             var result = PdfFunctions.PDF_ExportImage(currentFile, temporaryDir, divider, _CheckImagesPages, _JoinImages);
 
@@ -267,17 +261,29 @@ namespace CbrConverter
             {
                 var extension = Path.GetExtension(file).ToLower();
                 var supportedFormats = new[] { ".png", ".jpg", ".jpeg", ".gif" };
+                var convertToPngFormats = new[] { ".tif", ".tiff", ".bmp" };
                 var jp2Formats = new[] { ".jp2", ".jpx", ".j2k", ".j2c", ".jpf" };
 
                 if (!supportedFormats.Contains(extension))
                 {
-                    if (jp2Formats.Contains(extension))
+                    if (convertToPngFormats.Contains(extension))
                     {
-                        // Convert JP2 variants to JPG using Magick.NET
-                        var newPath = Path.ChangeExtension(file, ".jpg");
-                        using (var image = new ImageMagick.MagickImage(file))
+                        // Convert TIF and BMP to PNG
+                        var newPath = Path.ChangeExtension(file, ".png");
+                        using (var image = new MagickImage(file))
                         {
-                            image.Format = ImageMagick.MagickFormat.Jpg;
+                            image.Format = MagickFormat.Png;
+                            image.Write(newPath);
+                        }
+                        File.Delete(file); // Remove original file
+                    }
+                    else if (jp2Formats.Contains(extension))
+                    {
+                        // Convert JP2 variants to JPG
+                        var newPath = Path.ChangeExtension(file, ".jpg");
+                        using (var image = new MagickImage(file))
+                        {
+                            image.Format = MagickFormat.Jpg;
                             image.Write(newPath);
                         }
                         File.Delete(file); // Remove original JP2 file
@@ -302,29 +308,17 @@ namespace CbrConverter
 
                 string savedfile = temporaryDir + ".cbz";
 
-
                 using (ZipFile zip = new ZipFile())
                 {
                     zip.UseZip64WhenSaving = Zip64Option.AsNecessary;
                     zip.AddDirectory(temporaryDir);
-                    // zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
                     zip.Save(savedfile);
                 }
-
-                //waiting the new sharpcompress release to fix it
-                /*  using (var archive = ZipArchive.Create())
-                  {
-                      archive.AddAllFromDirectory(temporaryDir);                       
-                      archive.SaveTo(savedfile, CompressionType.None);    
-                  }*/
             }
-
 
             //delete the temp dir
             if (Directory.Exists(temporaryDir))
                 Directory.Delete(temporaryDir, true);
-
-
 
             //if we are converting a single file and not a directory we are done, so i reset values and clean the UI
             if (IsSingleFile)
