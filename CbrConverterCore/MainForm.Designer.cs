@@ -281,12 +281,13 @@
             // 
             btn_showlog.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             btn_showlog.FlatAppearance.BorderSize = 0;
-            btn_showlog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btn_showlog.Location = new System.Drawing.Point(391, 500);
+            btn_showlog.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            btn_showlog.Location = new System.Drawing.Point(366, 502);
             btn_showlog.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             btn_showlog.Name = "btn_showlog";
-            btn_showlog.Size = new System.Drawing.Size(64, 54);
+            btn_showlog.Size = new System.Drawing.Size(91, 35);
             btn_showlog.TabIndex = 6;
+            btn_showlog.Text = "Logs";
             btn_showlog.UseVisualStyleBackColor = true;
             btn_showlog.Click += btn_showlog_Click;
             // 
