@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{D48DAD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CbrConverterCore", "CbrConverterCore\CbrConverterCore.csproj", "{46DB9693-2A3A-8EE4-6808-7560D74C57D2}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Cbz2PDF_Setup", "Cbz2PDF_Setup\Cbz2PDF_Setup.vdproj", "{4D943E3B-B61D-1A52-957B-CCC63E4FF380}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,8 +38,15 @@ Global
 		{46DB9693-2A3A-8EE4-6808-7560D74C57D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46DB9693-2A3A-8EE4-6808-7560D74C57D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{46DB9693-2A3A-8EE4-6808-7560D74C57D2}.Release|x86.Build.0 = Release|Any CPU
+		{4D943E3B-B61D-1A52-957B-CCC63E4FF380}.Debug|Any CPU.ActiveCfg = Debug
+		{4D943E3B-B61D-1A52-957B-CCC63E4FF380}.Debug|x86.ActiveCfg = Debug
+		{4D943E3B-B61D-1A52-957B-CCC63E4FF380}.Release|Any CPU.ActiveCfg = Release
+		{4D943E3B-B61D-1A52-957B-CCC63E4FF380}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F5143E1-EBF5-4A82-8D08-4800928EA7C1}
 	EndGlobalSection
 EndGlobal
