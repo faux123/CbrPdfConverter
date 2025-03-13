@@ -11,7 +11,6 @@ What's new (v2.0.0) :
 
   - Updated Framework to .NET 8.0
   - Added Installer support
-  - Updated dot net framework 4.8
   - Added JPEG 2000 conversion support
   - Added automatic TIFF / BMP to PNG conversion (all lossless, so no loss of quality)
   - Added better logging support if conversion fails
